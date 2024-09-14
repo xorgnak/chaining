@@ -1,0 +1,11 @@
+
+<h1 style='width: 100%; text-align: center;'>READY</h1>
+<div style='width: 100%; text-align: center;'>
+<div id='qrcode' style='width: 100%;'></div>
+<script>$('#qrcode').qrcode("https://<%= request.host %>/x/<%= params[:here] %>");</script>
+</div>
+
+
+<h3><span><a href='/x/<%= params[:here] %>'>view</a>: </span><code>/x/<%= params[:here] %></code></h3>
+<h3><span><a href='/?h=<%= params[:here] %>'>fork</a>: </span><code>/?h=<%= params[:here] %></code></h3>
+<h3></h3>

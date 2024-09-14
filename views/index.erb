@@ -1,0 +1,98 @@
+<style>
+#banner { background-color: black; color: white; width: 100vw; height: 100vh; margin: 0; padding: 2% 0 2% 0; }
+#host { border: thin solid white; padding: 0 1% 0 1%; }
+#tx { width: 100%; }
+#doc { border: thin solid red; }
+#editor { height: 100%; width: 100%; text; align: center; }
+#script { height: 100%; }
+#chart {}
+</style>
+
+<% if params.has_key?(:c) %>
+<details id='banner' open>
+<summary id='host'><%= request.host %>:<%= params[:c] %></summary>
+<div id='tx'></div>
+<% if params.has_key?(:u) %>
+<%# WALLET %>
+<p><%= params[:u] %>@<%= params[:c] %>: <span id='bal'></span></p>
+<script>
+let bal = document.getElementById("bal")
+let tx = document.getElementById("tx")
+let s = ""
+fetch("/<%= params[:c] %>/u/<%= params[:u] %>").then(res => res.json()).then((d) => {
+bal.innerText = d.balance;
+for (const [k,v] of Object.entries(d.transactions)) {
+    s += `<p><a href='/<%= params[:c] %>/rx/${k}'>${k}</a></p>`;
+}
+tx.innerHTML = s;
+});
+</script>
+
+<% elsif params.has_key?(:i) %>
+<%# RX %>
+<p><%= params[:c] %>:<%= params[:i] %></p>
+<script>
+let tx = document.getElementById("tx");
+fetch("/rx/<%= params[:c] %>/<%= params[:i] %>").then(res => res.json()).then((d) => {
+console.log(d);
+//for (const [k,v] of Object.entries(d.transactions)) {
+//    s += `<p><a href='/<%= params[:c] %>/rx/${k}'>${k}</a></p>`;
+//}
+//tx.innerHTML = s;
+}));
+</script>
+<% else %>
+<% Chaining.coin(params[:c]).to_h.each_pair do |k,v| %>
+<p><a href='/<%= params[:c] %>/rx/<%= k %>'><%= k %></a></p>
+<% end %>
+<% end %>
+</details>
+<% else %>
+
+<div id='body'></div>
+
+<div id='editor' class='code' style='display: none;'>
+<h2 style='width: 100%; margin: 0;'>
+<button id='run' class='material-icons code' style='float: right; vertical-align: middle; border: thin solid orange;'>send</button>
+<input id='title' class='code' placeholder='heading' style='width: 85%; vertical-align: middle; font-size: large;'>
+</h2>
+<textarea id='script' class='code'>### BASIC SCRIPTING
+# Below are some helpful examples
+# of basic scripting commands.
+# Feel free to try them and if
+# you aren't happy with the result,
+# you can just delete it and start over. 
+
+## Create a task for a project.
+# todo('project', 'task', start: '<%= Time.now.strftime("%Y/%m/%d") %>', duration: '2d');
+
+## subsection of a txt file
+# txt(0)[0][0]
+
+## cats in all txt files:
+# txts('cats')
+
+## row of a csv:
+# csv(0)[row]
+
+## Filter csv rows by heading and value
+# csvs(heading: "regexp")
+
+## Other Utilities
+# unit['1 mile']['cm']
+# dice['2d6']
+# fortune
+
+</textarea>
+</div>
+
+<div id='content'>
+<div id='uploads'></div>
+<% if params.has_key?(:h) %>
+<textarea id='doc' name='doc'><%= ERB.new(VM[params[:h]][:doc]).result(binding) %></textarea>
+<% else %>
+<textarea id='doc' name='doc'><%= ERB.new(File.read(request.host + '.erb')).result(binding) %></textarea>
+<% end %>
+</div>
+
+<% end %>

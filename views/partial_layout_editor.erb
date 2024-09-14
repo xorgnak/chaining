@@ -1,0 +1,115 @@
+
+//$('#editor').hide();
+$('#content').show();
+
+console.log('here: ' + d.here);
+$('#here').val(d.here);
+mine = { here: d.here };
+console.log("mine", mine);
+
+const easyMDE = new EasyMDE({
+    minHeight: "84vh",
+    autofocus: true,
+    element: document.getElementById('doc'),
+    
+    previewRender: (plainText, preview) => { // Async method
+        setTimeout(() => {
+	    preview.innerHTML = customMarkdownParser(plainText);
+        }, 250);
+	
+        // If you return null, the innerHTML of the preview will not
+        // be overwritten. Useful if you control the preview node's content via
+        // vdom diffing.
+        // return null;
+	
+        return "Loading...";
+    },
+    
+    toolbar: [
+	{
+            name: "attach",
+            action: (editor) => {
+		$('#files').click();
+            },
+            className: "fa fa-paperclip",
+            text: "ATTACH ",
+            title: "ATTACH",
+            attributes: {
+		"state": "ATTACH"
+            }
+	},{
+            name: "script",
+            action: (editor) => {
+		$('#content').toggle();
+		$('#editor').toggle();
+            },
+            className: "fa fa-gear",
+            text: "SCRIPT ",
+            title: "SCRIPT"
+	},{
+            name: "PUBLISH",
+            action: (editor) => {
+		x = editor.value();
+		var now = new Date().toLocaleString();
+		append("");
+		append("-----");
+		append("");
+		append("done: " + now);
+		$.post('/save', form(), function(d) { console.log('saved', d); window.location = "/s?here=" + d.here + "&md5=" + d.md5 });
+            },
+            className: "fa fa-upload",
+            text: "PUBLISH ",
+            title: "PUBLISH",
+            attributes: { // for custom attributes                                                                                                                                                                              
+		"state": "PUBLISH" // HTML5 data-* attributes need to be enclosed in quotation marks ("") because of the dash (-) in its name.                                                                                
+            }
+	}]
+});
+function prepend(s) {
+    x = easyMDE.value();
+    easyMDE.value(s + "\n" + x);
+}
+
+function append(s) {
+    x = easyMDE.value();
+    easyMDE.value(x + "\n" + s);
+}
+
+function form() {
+    doc = easyMDE.value();
+    //    const array = $("#form").serializeArray();
+    //    $.each(array, function () {
+    //        doc += this.name + "  " + this.value + "\n";
+    //    });
+    var h =  { here: mine.here, file: file, data: data, doc: doc };
+    console.log('form', h);
+    return h;
+}
+
+$(document).on('click', '#run', function(ev) {
+    ev.preventDefault();
+    $.post('/script', { s: $('#script').val(), title: $('#title').val(), here: mine.here }, function(d) {
+	script = $('#script').val();
+	$('#script').val("");
+	$('#title').val("");
+        $('#content').toggle();
+        $('#editor').toggle();
+        append(d.head + "```\n\n" + script + "\n\n```\n\n" + d.body + "\n");
+    });
+});
+
+
+$(document).on('change', '#files', function(ev) {
+    ev.preventDefault();
+    fetch('/upload', { method: 'POST', body: new FormData($('#form')[0]) }).then(res => res.json()).then((d) => { console.log(d); append(d.body); $('#uploads').append(d.upload);  });
+});
+
+append("");
+append("* here: " + mine.here );
+append("* now: <%= Time.now %>");
+append("");
+append("");
+append("-----");
+append("");
+appebd("");
+console.log("--[chaining][editor] running.", <%= JSON.generate(params) %>);

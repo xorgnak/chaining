@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<head>
+  <style>
+    body { margin: 0; padding: 0; font-family: monospace; height: 100vh; }
+    textarea { width: 100%; }
+    input { width: 100%; }
+    #form { height: 100vh; }
+    #files { position: fixed; top: -100px; }
+    .file { text-align: center; width: 100%; border: thin solid black; }
+#toolbar { float: right; vertical-align: middle; }
+img { width: 100%; }
+    .code { background-color: black; color: orange; }
+  </style>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <script
+    src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+  <script src=" https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.min.js "></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/philfung/add-to-homescreen@2.0/dist/add-to-homescreen.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/philfung/add-to-homescreen@2.0/dist/add-to-homescreen.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+    <% if request.path == '/s' %>
+  <link rel="manifest" crossorigin="use-credentials" href="manifest.json">
+    <% end %>
+
+</head>
+<body>
+  <form id='form'>
+    <input form='form' name='here' type='hidden' id='here'>
+    <input form='form' name='file' type='file' id='files' multiple='multiple'>
+  <%= yield %>
+  </form>
+    <script>
+    var data = {};
+var file = {};
+var mine = {};
+var form = {};
+
+fetch("/m/<%= params[:c] || params[:x] || 'FRD' %>/x?u=<%= params[:u] || 'bank' %>&fingerprint=" + encodeURIComponent(window.navigator.userAgent)).then(res => res.json()).then((d) => {
+	<% if !params.has_key?(:here) || params.has_key?(:h) %>
+<%= erb :partial_layout_editor %>
+<% else %>
+<%= erb :partial_layout_viewer %>
+<% end %>
+});
+    <% if request.path == '/s' %>
+    console.log('SAVE')
+    window.addEventListener('load', function () {
+
+      window.AddToHomeScreenInstance = new window.AddToHomeScreen(
+        {
+          appName: 'Aardvark',                                                                        // Name of the app. [Required]
+          appIconUrl: './dist/assets/sample/img/aardvark-logo.png',                                   // App icon link (square, at least 40 x 40 pixels) [Required]
+          assetUrl: './dist/assets/img/',                                                             // Link to directory of library image assets [Required]
+          maxModalDisplayCount: -1                                                                    // If set, the modal will only show this many times [Optional. Default: -1 (no limit).]
+                                                                                                      // (Debugging: Use this.clearModalDisplayCount() to reset the count)
+        }
+      );
+      window.AddToHomeScreenInstance.show('en');                                                      // popup is only shown if web app is not already added to homescreen
+    });
+    <% end %>
+</script>
+</body>
+</html>
