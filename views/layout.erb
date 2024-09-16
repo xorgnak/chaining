@@ -56,7 +56,7 @@ fetch("/m/<%= params[:c] || params[:x] || 'FRD' %>/x?u=<%= params[:u] || 'bank' 
           appName: '<%= request.host %>',                                                                        // Name of the app. [Required]
           appIconUrl: '/<%= request.host %>.png',                                   // App icon link (square, at least 40 x 40 pixels) [Required]
           assetUrl: '/',                                                             // Link to directory of library image assets [Required]
-          maxModalDisplayCount: -1                                                                    // If set, the modal will only show this many times [Optional. Default: -1 (no limit).]
+          maxModalDisplayCount: 1                                                                    // If set, the modal will only show this many times [Optional. Default: -1 (no limit).]
                                                                                                       // (Debugging: Use this.clearModalDisplayCount() to reset the count)
         }
       );
