@@ -5,7 +5,14 @@
 <script>$('#qrcode').qrcode("https://<%= request.host %>/x/<%= params[:here] %>");</script>
 </div>
 
+<div style='width: 100%; text-align: center; border: thin solid black;'>
+<h3><a href='/x/<%= params[:here] %>'>view</a></h3>
+<code>/x/<%= params[:here] %></code>
+</div>
 
-<h3><span><a href='/x/<%= params[:here] %>'>view</a>: </span><code>/x/<%= params[:here] %></code></h3>
-<h3><span><a href='/?h=<%= params[:here] %>'>fork</a>: </span><code>/?h=<%= params[:here] %></code></h3>
-<h3></h3>
+
+
+<div style='width: 100%; text-align: center; border: thin solid black;'>
+<h3><a href='/?h=<%= params[:here] %>'>fork</a></h3>
+<code>/?h=<%= params[:here] %></code></h3>
+</div>
