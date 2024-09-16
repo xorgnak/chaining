@@ -7,7 +7,7 @@ module Chaining
     end
 
     before {
-      puts %[BEFORE #{params}]
+      puts %[BEFORE #{request.path} #{params}]
       if params.has_key?(:here); @vm = VM[params[:here]]; @vm.here = params[:here]; end;
       if params.has_key?(:h); @vm = VM[params[:h]]; @vm.here = params[:h]; end;
     }
