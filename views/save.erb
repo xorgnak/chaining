@@ -7,12 +7,15 @@
 
 <div style='width: 100%; text-align: center; border: thin solid black;'>
 <h3><a href='/x/<%= params[:here] %>'>view</a></h3>
-<code>/x/<%= params[:here] %></code>
+<code style='width: 70%; overflow-x: hidden;'>/x/<%= params[:here] %></code>
 </div>
-
-
 
 <div style='width: 100%; text-align: center; border: thin solid black;'>
 <h3><a href='/?h=<%= params[:here] %>'>fork</a></h3>
-<code>/?h=<%= params[:here] %></code></h3>
+<code style='width: 70%; overflow-x: hidden;'>/?h=<%= params[:here] %></code></h3>
+</div>
+
+<div style='width: 100%; text-align: center; border: thin solid black;'>
+<h3><a href='/e?h=<%= params[:here] %>&md5=<%= params[:md5] %>'>more</a></h3>
+<code style='width: 70%; overflow-x: hidden;'>/?h=<%= params[:here] %></code>
 </div>

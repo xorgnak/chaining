@@ -53,9 +53,9 @@ fetch("/m/<%= params[:c] || params[:x] || 'FRD' %>/x?u=<%= params[:u] || 'bank' 
 
       window.AddToHomeScreenInstance = new window.AddToHomeScreen(
         {
-          appName: 'Aardvark',                                                                        // Name of the app. [Required]
-          appIconUrl: './dist/assets/sample/img/aardvark-logo.png',                                   // App icon link (square, at least 40 x 40 pixels) [Required]
-          assetUrl: './dist/assets/img/',                                                             // Link to directory of library image assets [Required]
+          appName: '<%= request.host %>',                                                                        // Name of the app. [Required]
+          appIconUrl: '/<%= request.host %>.png',                                   // App icon link (square, at least 40 x 40 pixels) [Required]
+          assetUrl: '/',                                                             // Link to directory of library image assets [Required]
           maxModalDisplayCount: -1                                                                    // If set, the modal will only show this many times [Optional. Default: -1 (no limit).]
                                                                                                       // (Debugging: Use this.clearModalDisplayCount() to reset the count)
         }
