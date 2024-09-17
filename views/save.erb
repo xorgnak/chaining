@@ -3,17 +3,21 @@
 <script>$('#qrcode').qrcode("https://<%= request.host %>/x/<%= params[:here] %>");</script>
 </div>
 
-<div style='width: 99%; text-align: center; border: thin solid black;'>
-<h3><a href='/x/<%= params[:here] %>'>view note chain</a></h3>
-<!-- <input style='width: 70%;' value='/x/<%= params[:here] %>'> -->
-</div>
 
-<div style='width: 99%; text-align: center; border: thin solid black;'>
-<h3><a href='/?h=<%= params[:here] %>'>fork note chain</a></h3>
-<!-- <input style='width: 70%;' value='/?h=<%= params[:here] %>'> -->
-</div>
+<h3 style='width: 100%; text-align: center;'>
 
-<div style='width: 99%; text-align: center; border: thin solid black;'>
-<h3><a href='/e?h=<%= params[:here] %>&md5=<%= params[:md5] %>'>continue working</a></h3>
-<!-- <input style='width: 70%;' value='/e?h=<%= params[:here] %>&md5=<%= params[:md5] %>'> -->
-</div>
+<span style='border: thin solid black; padding: 1%; margin: 1%;'>
+<span>view</span>
+<a class='material-symbols-outlined' style='vertical-align: middle; text-decoration: none; color: black;' href='/x/<%= params[:here] %>'>visibility</a>
+</span>
+
+<span style='border: thin solid black; padding: 1%; margin: 1%;'>
+<span>fork</span>
+<a class='material-symbols-outlined' style='vertical-align: middle; text-decoration: none; color: black;' href='/?h=<%= params[:here] %>'>rebase</a>
+</span>
+
+<span style='border: thin solid black; padding: 1%; margin: 1%;'>
+<span>edit</span>
+<a class='material-symbols-outlined' style='vertical-align: middle; text-decoration: none; color: black;' href='/e?h=<%= params[:here] %>&md5=<%= params[:md5] %>'>edit</a>
+</span>
+</h3>
