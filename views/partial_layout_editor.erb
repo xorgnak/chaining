@@ -61,7 +61,7 @@ function prepend(s) {
 
 function append(s) {
     x = easyMDE.value();
-    easyMDE.value(x + "\n" + s);
+    easyMDE.value(x + "\n" + s + "\n");
 }
 
 function form() {
@@ -142,9 +142,11 @@ $(document).on('change', '#files', function(ev) {
 });
 
 append("");
-append("* here: " + mine.here );
-append("* now: <%= Time.now %>");
-append("");
+append("now: <%= Time.now %>");
+append("- " + mine.here.substring(0,15));
+append("- " + mine.here.substring(16,31));
+append("- " + mine.here.substring(32,47));
+append("- " + mine.here.substring(48,63));
 append("");
 append("-----");
 append("");
