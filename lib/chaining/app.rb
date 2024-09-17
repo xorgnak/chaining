@@ -21,10 +21,10 @@ module Chaining
       file = params.delete(:file) || {};
       doc = params.delete(:doc);
       md5 = Digest::MD5.hexdigest(doc)
-//      if %[#{@vm[:md5]}].length == 0 || @vm[:md5] == params[:md5]
+#      if %[#{@vm[:md5]}].length == 0 || @vm[:md5] == params[:md5]
         @vm[:doc] = doc
         @vm[:md5] = md5
-//      end
+#      end
       #Chaining.ipfs.upload(request.host, { fn => %[#{@doc}\n#{ln.join("\n")}] })
       #@cid = FS.cid(fn)
       #puts "POST: #{@here}\n cid: #{@cid}\ndoc: #{@doc}\nparams: #{params}";
