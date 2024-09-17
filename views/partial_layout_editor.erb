@@ -25,45 +25,34 @@ const easyMDE = new EasyMDE({
         return "Loading...";
     },
     
-    toolbar: [
-	{
-            name: "attach",
-            action: (editor) => {
-		$('#files').click();
-            },
-            className: "fa fa-paperclip",
-            text: "ATTACH ",
-            title: "ATTACH",
-            attributes: {
-		"state": "ATTACH"
-            }
-	},{
-            name: "script",
-            action: (editor) => {
-		$('#content').toggle();
-		$('#editor').toggle();
-            },
-            className: "fa fa-gear",
-            text: "SCRIPT ",
-            title: "SCRIPT"
-	},{
-            name: "PUBLISH",
-            action: (editor) => {
-		x = editor.value();
-		var now = new Date().toLocaleString();
-		append("");
-		append("-----");
-		append("");
-		append("done: " + now);
-		$.post('/save', form(), function(d) { console.log('saved', d); window.location = "/s?here=" + d.here + "&md5=" + d.md5 });
-            },
-            className: "fa fa-upload",
-            text: "PUBLISH ",
-            title: "PUBLISH",
-            attributes: { // for custom attributes                                                                                                                                                                              
-		"state": "PUBLISH" // HTML5 data-* attributes need to be enclosed in quotation marks ("") because of the dash (-) in its name.                                                                                
-            }
-	}]
+    toolbar: []
+//	{
+//            name: "script",
+//            action: (editor) => {
+//		$('#content').toggle();
+//		$('#editor').toggle();
+//            },
+//            className: "fa fa-plus",
+//            text: "SCRIPT ",
+//            title: "SCRIPT"
+//	},{
+//            name: "PUBLISH",
+//            action: (editor) => {
+//		x = editor.value();
+//		var now = new Date().toLocaleString();
+//		append("");
+//		append("-----");
+//		append("");
+//		append("done: " + now);
+//		$.post('/save', form(), function(d) { console.log('saved', d); window.location = "/s?here=" + d.here + "&md5=" + d.md5 });
+//            },
+//            className: "fa fa-send",
+//            text: "PUBLISH ",
+//            title: "PUBLISH",
+//            attributes: { // for custom attributes                                                                                                                                                                          
+//		"state": "PUBLISH" // HTML5 data-* attributes need to be enclosed in quotation marks ("") because of the dash (-) in its name.                                                                                
+//            }
+//	}]
 });
 function prepend(s) {
     x = easyMDE.value();
@@ -86,18 +75,65 @@ function form() {
     return h;
 }
 
+$(document).on('click', '#inbox', function(ev) {
+    ev.preventDefault();
+//    $('#content').hide();
+    $('#editor').show();
+});
+
+$(document).on('click', '#outbox', function(ev) {
+    ev.preventDefault();
+    var now = new Date().toLocaleString();
+    append("");
+    append("-----");
+    append("");
+    append("done: " + now);
+    $.post('/save', form(), function(d) { console.log('saved', d); window.location = "/s?here=" + d.here + "&md5=" + d.md5 });
+});
+
+$(document).on('click', '#todo', function(ev) {
+    ev.preventDefault();
+    $('#script').append("todo('projectTag', 'taskTag',\nstart: '<%= Time.now.strftime(%[%Y/%m/%d]); %>',\nduration: '1h',\nstate: 'WAIT',\ncritical: true,\ntag: 'myTag');\n");
+});
+
+$(document).on('click', '#rem', function(ev) {
+    ev.preventDefault();
+    $('#script').append("rem['tag'];\n");
+});
+
+$(document).on('click', '#txts', function(ev) {
+    ev.preventDefault();
+    $('#script').append("txts('tag');\n"); 
+});
+
+$(document).on('click', '#csvs', function(ev) {
+    ev.preventDefault();
+    $('#script').append("csvs( heading: 'value');\n"); 
+});
+
+$(document).on('click', '#unit', function(ev) {
+    ev.preventDefault();
+    $('#script').append("unit['1 ft']['in'];\n"); 
+});
+
+$(document).on('click', '#add', function(ev) {
+    ev.preventDefault();
+    $('#files').click();
+});
+
 $(document).on('click', '#run', function(ev) {
     ev.preventDefault();
     $.post('/script', { s: $('#script').val(), title: $('#title').val(), here: mine.here }, function(d) {
-	script = $('#script').val();
-	$('#script').val("");
-	$('#title').val("");
-        $('#content').toggle();
-        $('#editor').toggle();
-        append(d.head + "```\n\n" + script + "\n\n```\n\n" + d.body + "\n");
+	console.log('running', d);
+        script = $('#script').val();
+        $('#script').val("");
+        $('#title').val("");
+//        $('#content').show();
+        $('#editor').hide();
+	x = easyMDE.value();
+        easyMDE.value(x + "\n" + d.head + "```\n\n" + script + "\n\n```\n\n" + d.body + "\n");
     });
 });
-
 
 $(document).on('change', '#files', function(ev) {
     ev.preventDefault();
@@ -111,5 +147,5 @@ append("");
 append("");
 append("-----");
 append("");
-appebd("");
+append("");
 console.log("--[chaining][editor] running.", <%= JSON.generate(params) %>);

@@ -1,21 +1,19 @@
-
-<h1 style='width: 100%; text-align: center;'>READY</h1>
 <div style='width: 100%; text-align: center;'>
-<div id='qrcode' style='width: 100%;'></div>
+<div id='qrcode' style='width: 100%; padding: 5% 0 5% 0;'></div>
 <script>$('#qrcode').qrcode("https://<%= request.host %>/x/<%= params[:here] %>");</script>
 </div>
 
-<div style='width: 100%; text-align: center; border: thin solid black;'>
-<h3><a href='/x/<%= params[:here] %>'>view</a></h3>
-<code style='width: 70%; overflow-x: hidden;'>/x/<%= params[:here] %></code>
+<div style='width: 99%; text-align: center; border: thin solid black;'>
+<h3><a href='/x/<%= params[:here] %>'>view note chain</a></h3>
+<!-- <input style='width: 70%;' value='/x/<%= params[:here] %>'> -->
 </div>
 
-<div style='width: 100%; text-align: center; border: thin solid black;'>
-<h3><a href='/?h=<%= params[:here] %>'>fork</a></h3>
-<code style='width: 70%; overflow-x: hidden;'>/?h=<%= params[:here] %></code></h3>
+<div style='width: 99%; text-align: center; border: thin solid black;'>
+<h3><a href='/?h=<%= params[:here] %>'>fork note chain</a></h3>
+<!-- <input style='width: 70%;' value='/?h=<%= params[:here] %>'> -->
 </div>
 
-<div style='width: 100%; text-align: center; border: thin solid black;'>
-<h3><a href='/e?h=<%= params[:here] %>&md5=<%= params[:md5] %>'>more</a></h3>
-<code style='width: 70%; overflow-x: hidden;'>/?h=<%= params[:here] %></code>
+<div style='width: 99%; text-align: center; border: thin solid black;'>
+<h3><a href='/e?h=<%= params[:here] %>&md5=<%= params[:md5] %>'>continue working</a></h3>
+<!-- <input style='width: 70%;' value='/e?h=<%= params[:here] %>&md5=<%= params[:md5] %>'> -->
 </div>
