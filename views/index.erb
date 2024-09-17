@@ -53,9 +53,9 @@ console.log(d);
 
 <div id='content'>
 <h1 id='content_head'>
-<span><%= request.host %></span>
-<button id='outbox' class='material-symbols-outlined' style='float: right; vertical-align: middle;'>outbox</button>
-<button id='inbox' class='material-symbols-outlined' style='float: right; vertical-align: middle;'>inbox</button>
+<span>NOTES:</span>
+<button id='outbox' class='material-symbols-outlined' style='float: right; vertical-align: middle;'>send</button>
+<button id='inbox' class='material-symbols-outlined' style='float: right; vertical-align: middle;'>terminal</button>
 </h1>
 <% if params.has_key?(:h) %>
 <textarea id='doc' name='doc'><%= ERB.new(VM[params[:h]][:doc]).result(binding) %></textarea>
