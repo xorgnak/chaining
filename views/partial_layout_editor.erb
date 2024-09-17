@@ -79,6 +79,7 @@ $(document).on('click', '#inbox', function(ev) {
     ev.preventDefault();
 //    $('#content').hide();
     $('#editor').show();
+    $('#content_head').hide();
 });
 
 $(document).on('click', '#outbox', function(ev) {
@@ -128,7 +129,7 @@ $(document).on('click', '#run', function(ev) {
         script = $('#script').val();
         $('#script').val("");
         $('#title').val("");
-//        $('#content').show();
+        $('#content_head').show();
         $('#editor').hide();
 	x = easyMDE.value();
         easyMDE.value(x + "\n" + d.head + "```\n\n" + script + "\n\n```\n\n" + d.body + "\n");
