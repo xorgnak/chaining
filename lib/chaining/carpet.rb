@@ -1,7 +1,7 @@
 module HTML
   def self.[] k
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true)
-    markdown.render(VM[k][:doc])
+    markdown.render(ERB.new(VM[k][:doc]).result(binding))
   end
 end
 

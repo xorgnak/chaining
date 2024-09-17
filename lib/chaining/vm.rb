@@ -30,13 +30,10 @@ module VM
         @csv = VmDb.new(:csv, k)
         @txt = VmDb.new(:txt, k)
         @img = VmDb.new(:img, k)
+        @set = VmSet.new(:set, k)
         @rem = REM[k]
         @here = HERE[k]
         @output = %[]
-      end
-
-      def insert k
-        return JOB[k][:doc]
       end
       
       def system(*a)
@@ -208,6 +205,19 @@ module VM
       end
       def keys
         @db.transaction { |db| db.keys }
+      end
+    end
+
+    class VmSet
+      def initialize t, k
+        @db = PStore.new("db/vm-#{t}-#{k}.pstore")
+      end
+      def set k, *v
+        if v[0]
+          @db.transaction { |db| db[k] ||= []; db[k] << v[0]; db[k].uniq! }
+        else
+          @db.transaction { |db| db[k] }
+        end
       end
     end
   end
